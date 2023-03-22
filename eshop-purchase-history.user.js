@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         eShop Purchase History Exporter
 // @namespace    http://codekiem.com
-// @version      1.0
+// @version      1.1
 // @description  Export your purchase history on eShop to CSV
 // @author       redphx
-// @match        https://ec.nintendo.com/my/
+// @match        https://ec.nintendo.com/my/transactions/*
 // @grant        GM_xmlhttpRequest
 // @run-at       document-end
 // @downloadURL  https://raw.githubusercontent.com/redphx/eshop-purchase-history/master/eshop-purchase-history.user.js
@@ -110,6 +110,9 @@
         exportBtn.className = 'o_c-button03'
         exportBtn.style.display = 'block'
         exportBtn.style.margin = '0 auto'
+        exportBtn.style.background = '#e60012'
+        exportBtn.style.color = 'white'
+        exportBtn.style.padding = '10px'
 
         exportBtn.innerText = 'Export Purchase History to CSV'
         exportBtn.addEventListener('click', e => {
@@ -122,10 +125,11 @@
         titleElm.parentNode.appendChild(exportBtn)
     }
 
-    setTimeout(() => {
-        let titleElm = document.querySelector('.l-cont-onecol__title')
+    var retryInterval = setInterval(() => {
+        let titleElm = document.querySelector('div[class^=MyTransactions]')
         if (titleElm) {
+            clearInterval(retryInterval)
             render(titleElm)
         }
-    }, 2000)
+    }, 1000)
 })()
